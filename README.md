@@ -151,7 +151,44 @@ El sitio es mobile-first con 3 breakpoints:
 
 ---
 
-## 🚀 Deploy en GitHub Pages
+## � Auto-sync local → GitHub
+
+Hay un watcher listo para usar en `auto-sync.sh`. Desde la raíz del proyecto ejecuta:
+
+```bash
+./auto-sync.sh
+```
+
+El script hace lo siguiente:
+- observa cambios en todo el proyecto
+- espera 10 segundos después del último cambio
+- hace `git add -A`
+- hace un commit automático con un mensaje descriptivo
+- hace `git push` a la rama remota configurada
+
+Requisitos:
+- `fswatch` instalado (`brew install fswatch`)
+- la rama actual debe tener upstream configurado en GitHub
+
+---
+## 📤 Subir multimedia desde la terminal
+
+Para copiar un nuevo archivo multimedia o video a la carpeta `uploads/`, commitearlo y empujarlo a GitHub, usa:
+
+```bash
+./upload-media.sh /ruta/al/archivo.mp4 "Agregar nuevo video"
+```
+
+El script:
+- copia el archivo dentro de `uploads/`
+- hace `git add` del archivo nuevo
+- hace `git commit` con un mensaje automático o personalizado
+- hace `git push origin <rama>` al upstream configurado
+
+Si el nombre del archivo ya existe en `uploads/` y el contenido es distinto, te pedirá confirmación antes de sobrescribirlo.
+
+---
+## �🚀 Deploy en GitHub Pages
 
 1. Subir todo el repositorio a GitHub (incluida la carpeta `uploads/`)
 2. Ir a **Settings → Pages**
