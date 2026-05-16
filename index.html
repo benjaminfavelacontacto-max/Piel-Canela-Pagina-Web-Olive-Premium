@@ -1975,7 +1975,7 @@ footer {
 
   /* Reels */
   .reels-grid { grid-template-columns: 1fr; }
-  .reel:first-child { grid-column: span 1; }
+  .reel:first-child { grid-column: span 1; aspect-ratio: 9/16; }
 
   /* Booking */
   .booking-card { border-radius: var(--radius); }
@@ -2270,10 +2270,12 @@ footer {
 
   <div class="reels-grid">
     <div class="reel reveal" data-delay="1">
-      <img src="uploads/cintas 2.png" alt="Variedad de cintas para diseños de bikini">
+      <video autoplay muted loop playsinline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <source src="uploads/resulaero.mp4" type="video/mp4">
+      </video>
       <div class="reel-overlay">
-        <div class="reel-lbl">Diseños personalizados</div>
-        <div class="reel-title">Nuestra variedad de cintas<br>para tu diseño de bikini</div>
+        <div class="reel-lbl">Aerografía profesional</div>
+        <div class="reel-title">Resultados desde<br>la primera sesión.</div>
       </div>
     </div>
     <div class="reel reveal" data-delay="2">
