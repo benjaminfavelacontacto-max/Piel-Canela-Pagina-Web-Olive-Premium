@@ -366,6 +366,28 @@ button { font-family: inherit; cursor: pointer; }
   padding: 140px var(--pad-x) 100px;
 }
 
+/* Cinematic left-side overlay — boosts readability without darkening the whole hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 60% 75% at left center,
+      rgba(0,0,0,0.32) 0%,
+      transparent 65%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,0.42) 0%,
+      rgba(0,0,0,0.24) 35%,
+      rgba(0,0,0,0.08) 60%,
+      transparent 100%
+    );
+}
+
 /* Backdrop layer */
 .hero-bg {
   position: absolute;
@@ -394,16 +416,16 @@ button { font-family: inherit; cursor: pointer; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 90% 60% at 50% 110%, rgba(30, 38, 32, 0.92) 0%, rgba(30, 38, 32, 0.55) 40%, transparent 75%),
-    linear-gradient(180deg, rgba(30, 38, 32, 0.55) 0%, rgba(30, 38, 32, 0.18) 40%, rgba(30, 38, 32, 0.85) 100%),
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(95, 107, 87, 0.18) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 60% at 50% 110%, rgba(30, 38, 32, 0.88) 0%, rgba(30, 38, 32, 0.45) 40%, transparent 75%),
+    linear-gradient(180deg, rgba(30, 38, 32, 0.32) 0%, rgba(30, 38, 32, 0.10) 40%, rgba(30, 38, 32, 0.82) 100%),
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(95, 107, 87, 0.14) 0%, transparent 60%);
 }
 
 /* Ambient floating glow blobs */
 .hero-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(60px);
   pointer-events: none;
   z-index: -2;
   mix-blend-mode: screen;
@@ -485,11 +507,22 @@ button { font-family: inherit; cursor: pointer; }
 .hero-sub {
   margin-top: 36px;
   font-size: clamp(16px, 1.45vw, 18.5px);
+  color: var(--ink);
+  font-weight: 400;
+  max-width: 500px;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.28);
+}
+.hero-sub-2 {
+  margin-top: 14px;
+  font-size: clamp(15px, 1.3vw, 17px);
   color: var(--ink-soft);
   font-weight: 300;
-  max-width: 540px;
-  line-height: 1.7;
-  letter-spacing: 0.005em;
+  max-width: 500px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.24);
 }
 
 .hero-actions {
@@ -1896,6 +1929,7 @@ footer {
   .hero-bg img.desktop { display: none; }
   .hero h1 { font-size: clamp(44px, 14vw, 72px); }
   .hero-sub { font-size: 16px; margin-top: 24px; }
+  .hero-sub-2 { font-size: 15px; margin-top: 12px; }
   .hero-actions { margin-top: 32px; width: 100%; }
   .btn { flex: 1; justify-content: center; }
   .hero-meta { gap: 24px; margin-top: 48px; }
@@ -2023,7 +2057,10 @@ footer {
         Tu bronceado<br><em>perfecto</em><br>todo el año.
       </h1>
       <p class="hero-sub reveal" data-delay="3">
-        Especialistas en bronceado natural, UV y aerografía. Resultados de spa premium en un ambiente íntimo y exclusivo.
+        Especialistas en bronceado natural, UV y aerografía.
+      </p>
+      <p class="hero-sub-2 reveal" data-delay="3">
+        Resultados de spa premium en un ambiente íntimo y exclusivo.
       </p>
       <div class="hero-actions reveal" data-delay="4">
         <a class="btn btn-primary" href="#reserva">
