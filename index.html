@@ -2099,6 +2099,449 @@ footer {
   .gallery-row { will-change: auto !important; transform: none !important; }
 }
 
+/* ──────────────────────────────────────────────────────────
+   PAQUETES PREMIUM · Glassmorphism luxury package cards
+   ────────────────────────────────────────────────────────── */
+
+/* Section */
+.pkg-section { position: relative; overflow: hidden; }
+.pkg-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(194,168,120,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 80% 100%, rgba(95,107,87,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Grid */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr 1fr;
+  gap: 20px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* Base card */
+.pkg-card {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid var(--border-soft);
+  background: rgba(30, 38, 32, 0.72);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  overflow: hidden;
+  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+  cursor: default;
+  /* Mouse-glow via CSS custom props */
+  --mx: 50%;
+  --my: 50%;
+}
+.pkg-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle 220px at var(--mx) var(--my), rgba(194,168,120,0.09) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity .3s;
+  opacity: 0;
+}
+.pkg-card:hover::after { opacity: 1; }
+.pkg-card:hover { transform: translateY(-6px); box-shadow: 0 28px 70px -18px rgba(0,0,0,0.6); }
+
+/* Inner content layer */
+.pkg-inner {
+  position: relative;
+  z-index: 2;
+  padding: clamp(28px, 3.5vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Silver ── */
+.pkg-silver {
+  border-color: rgba(180,190,200,0.18);
+  background: rgba(28, 36, 38, 0.75);
+}
+.pkg-silver:hover { border-color: rgba(180,200,220,0.32); }
+.pkg-silver .pkg-glow {
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 260px; height: 160px;
+  background: radial-gradient(ellipse, rgba(160,185,200,0.14) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── Diamond (featured center) ── */
+.pkg-diamond {
+  border-color: transparent;
+  background: rgba(24, 32, 28, 0.88);
+  box-shadow:
+    0 0 0 1px rgba(194,168,120,0.20),
+    0 24px 72px -16px rgba(0,0,0,0.65),
+    0 0 60px -20px rgba(194,168,120,0.18);
+  transform: translateY(-14px);
+}
+.pkg-diamond:hover { transform: translateY(-22px); }
+.pkg-diamond .pkg-glow {
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 320px; height: 200px;
+  background: radial-gradient(ellipse, rgba(194,168,120,0.16) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Rotating animated border for Diamond */
+.pkg-diamond-border {
+  position: absolute;
+  inset: -2px;
+  border-radius: 26px;
+  z-index: 0;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    rgba(194,168,120,0.0) 60deg,
+    rgba(194,168,120,0.85) 120deg,
+    rgba(244,241,234,0.9) 160deg,
+    rgba(194,168,120,0.85) 200deg,
+    rgba(194,168,120,0.0) 260deg,
+    transparent 360deg
+  );
+  animation: diamond-spin 4s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+}
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes diamond-spin {
+  to { --angle: 360deg; }
+}
+
+/* ── Gold ── */
+.pkg-gold {
+  border-color: rgba(194,168,120,0.20);
+  background: rgba(32, 30, 24, 0.78);
+}
+.pkg-gold:hover { border-color: rgba(194,168,120,0.40); }
+.pkg-gold .pkg-glow {
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 280px; height: 180px;
+  background: radial-gradient(ellipse, rgba(194,168,120,0.12) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Header row */
+.pkg-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Tier pill */
+.pkg-tier {
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.pkg-silver .pkg-tier {
+  color: #a0b8c8;
+  border-color: rgba(160,184,200,0.40);
+  background: rgba(160,184,200,0.08);
+}
+.pkg-diamond .pkg-tier {
+  color: var(--gold-warm);
+  border-color: rgba(194,168,120,0.45);
+  background: rgba(194,168,120,0.10);
+}
+.pkg-gold .pkg-tier {
+  color: #C2A878;
+  border-color: rgba(194,168,120,0.40);
+  background: rgba(194,168,120,0.10);
+}
+
+/* Time badge */
+.pkg-time {
+  font-family: var(--ff-body);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+
+/* Signature badge (Gold only) */
+.pkg-badge {
+  margin-left: auto;
+  font-family: var(--ff-body);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bg-0);
+  background: linear-gradient(135deg, #C2A878, #D4BC94, #B89B68);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* Package name */
+.pkg-name {
+  font-family: var(--ff-display);
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.pkg-diamond .pkg-name { font-size: clamp(24px, 2.8vw, 34px); }
+
+/* Price wrap */
+.pkg-price-wrap { display: flex; flex-direction: column; gap: 12px; }
+
+/* Toggle */
+.pkg-toggle {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 3px;
+  width: fit-content;
+}
+.pkg-toggle-btn {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 999px;
+  transition: background .25s, color .25s;
+  letter-spacing: 0.04em;
+}
+.pkg-toggle-btn.active {
+  background: rgba(194,168,120,0.18);
+  color: var(--gold-warm);
+}
+.pkg-toggle-btn:hover:not(.active) { color: var(--ink-soft); }
+
+/* Price display */
+.pkg-price { display: flex; align-items: baseline; gap: 8px; }
+.pkg-price-num {
+  font-family: var(--ff-display);
+  font-size: clamp(34px, 4vw, 46px);
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: opacity .2s ease, transform .2s var(--ease-out);
+  will-change: opacity, transform;
+}
+.pkg-diamond .pkg-price-num { font-size: clamp(38px, 4.5vw, 52px); color: var(--gold-warm); }
+.pkg-price-lbl {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+}
+
+/* Feature list */
+.pkg-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: 1;
+}
+.pkg-list li {
+  font-family: var(--ff-body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  padding-left: 18px;
+  position: relative;
+}
+.pkg-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--ink-mute);
+  opacity: 0.6;
+}
+.pkg-diamond .pkg-list li::before { background: var(--gold-warm); opacity: 0.7; }
+.pkg-gold .pkg-list li::before { background: var(--gold-warm); opacity: 0.6; }
+
+/* Divider */
+.pkg-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+/* CTA button */
+.pkg-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--ff-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cream);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 14px 28px;
+  transition: background .3s, border-color .3s, transform .2s;
+  margin-top: auto;
+}
+.pkg-cta:hover {
+  background: rgba(194,168,120,0.15);
+  border-color: rgba(194,168,120,0.45);
+  transform: translateY(-2px);
+}
+.pkg-cta-diamond {
+  background: linear-gradient(135deg, rgba(194,168,120,0.22), rgba(184,155,104,0.28));
+  border-color: rgba(194,168,120,0.50);
+  color: var(--gold-warm);
+}
+.pkg-cta-diamond:hover {
+  background: linear-gradient(135deg, rgba(194,168,120,0.35), rgba(184,155,104,0.42));
+  border-color: rgba(194,168,120,0.70);
+  color: var(--cream);
+}
+
+/* ── Aerografía row ── */
+.pkg-aero {
+  max-width: var(--maxw);
+  margin: 40px auto 0;
+  border-radius: 20px;
+  border: 1px solid var(--border-soft);
+  background: rgba(30,38,32,0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  transition: border-color .3s;
+}
+.pkg-aero:hover { border-color: rgba(194,168,120,0.25); }
+.pkg-aero-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(28px, 4vw, 40px) clamp(28px, 5vw, 52px);
+  flex-wrap: wrap;
+}
+.pkg-aero-left { flex: 1; min-width: 260px; }
+.pkg-aero-left .eyebrow { display: block; margin-bottom: 10px; }
+.pkg-aero-left h3 {
+  font-family: var(--ff-display);
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.pkg-aero-left p {
+  font-family: var(--ff-body);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 420px;
+}
+.pkg-aero-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.pkg-aero-prices { display: flex; align-items: center; gap: 20px; }
+.pkg-aero-price {
+  font-family: var(--ff-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  display: block;
+  line-height: 1;
+}
+.pkg-aero-lbl {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+  display: block;
+  margin-top: 4px;
+}
+.pkg-aero-divider {
+  width: 1px; height: 48px;
+  background: var(--border-soft);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .pkg-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+  .pkg-diamond { transform: none; grid-column: 1 / -1; }
+  .pkg-diamond:hover { transform: translateY(-6px); }
+  .pkg-diamond .pkg-inner { flex-direction: row; flex-wrap: wrap; gap: 24px; }
+  .pkg-diamond .pkg-name,
+  .pkg-diamond .pkg-price-wrap { flex: 1 1 180px; }
+  .pkg-diamond .pkg-list { flex: 1 1 100%; }
+  .pkg-diamond .pkg-cta { flex: 0 0 auto; }
+}
+@media (max-width: 640px) {
+  .pkg-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 14px;
+    padding-bottom: 20px;
+    /* hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .pkg-grid::-webkit-scrollbar { display: none; }
+  .pkg-card {
+    scroll-snap-align: center;
+    flex: 0 0 min(80vw, 320px);
+    min-width: min(80vw, 320px);
+  }
+  .pkg-diamond { transform: none; grid-column: unset; }
+  .pkg-diamond .pkg-inner { flex-direction: column; }
+  .pkg-aero-inner { flex-direction: column; align-items: flex-start; }
+  .pkg-aero-right { width: 100%; }
+  .pkg-aero-prices { flex-wrap: wrap; }
+}
+
 </style>
 
 <!-- Schema Markup — LocalBusiness -->
@@ -2293,87 +2736,150 @@ footer {
 </div>
 
 <!-- ───── SERVICIOS ───── -->
-<section class="services section-pad" id="servicios">
+<section class="services pkg-section section-pad" id="servicios">
   <div class="section-head">
-    <div class="reveal"><span class="eyebrow">Servicios</span></div>
-    <h2 class="section-title reveal" data-delay="1">Tres caminos hacia<br>tu <em>tono perfecto</em></h2>
-    <p class="section-desc reveal" data-delay="2">Cada técnica de bronceado brasileño es una experiencia distinta. Elegimos contigo la que mejor se adapta a tu fototipo, tu agenda y el resultado dorado que buscas.</p>
+    <div class="reveal"><span class="eyebrow">Paquetes</span></div>
+    <h2 class="section-title reveal" data-delay="1">Elige tu<br><em>experiencia perfecta</em></h2>
+    <p class="section-desc reveal" data-delay="2">Cada paquete es un ritual completo. Desde el jugo activador de melanina hasta la ducha final con vitaminas, cada detalle está pensado para que salgas radiante.</p>
   </div>
 
-  <div class="bento">
-    <!-- Card 1 -->
-    <div class="card card-svc reveal" data-delay="1" data-svc onclick="window.location.hash='#reserva'">
-      <div class="card-media">
-        <video autoplay muted loop playsinline preload="auto" aria-label="Bronceado con Sol UV Natural">
-          <source src="uploads/SolUVNatural.mp4" type="video/mp4">
-          Tu navegador no soporta este video.
-        </video>
-        <span class="card-tag">Recomendado</span>
-        <span class="card-eyebrow">Técnica · Sol Natural</span>
-      </div>
-      <span class="sheen"></span>
-      <div class="card-body">
-        <h3>Bronceado con Sol UV Natural</h3>
-        <p>El bronceado brasileño tradicional. Exposición solar guiada por especialistas con productos potenciadores premium y diseño con cintas para un acabado natural, uniforme y luminoso.</p>
-        <div class="card-foot">
-          <div class="card-price">
-            <div class="card-price-num">$1280</div>
-            <div class="card-price-lbl">por sesión</div>
+  <!-- Cards Grid -->
+  <div class="pkg-grid">
+
+    <!-- ── Silver ── -->
+    <div class="pkg-card pkg-silver reveal" data-delay="1">
+      <div class="pkg-glow"></div>
+      <div class="pkg-inner">
+        <div class="pkg-header">
+          <div class="pkg-tier">Silver</div>
+          <div class="pkg-time">⏱ 1:30 hrs</div>
+        </div>
+        <div class="pkg-name">Sol UV Natural</div>
+        <div class="pkg-price-wrap">
+          <div class="pkg-toggle" data-card="silver">
+            <button class="pkg-toggle-btn active" data-price="$780">1 sesión</button>
+            <button class="pkg-toggle-btn" data-price="$2,180">3 sesiones</button>
           </div>
-          <div class="card-arrow">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <div class="pkg-price">
+            <span class="pkg-price-num">$780</span>
+            <span class="pkg-price-lbl">por sesión</span>
           </div>
         </div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-list">
+          <li>Bronceado Brasileño con sol</li>
+          <li>Diseño de Bikini personalizado</li>
+          <li>Jugo Activador de Melanina</li>
+          <li>Coctel de frutas o paleta</li>
+          <li>Masaje de exfoliación podal</li>
+          <li>Aplicación de bronceador</li>
+          <li>Mascarilla de gel refrescante</li>
+          <li>Ducha con vitamina E y C</li>
+        </ul>
+        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Silver%20%F0%9F%8C%BF" target="_blank" rel="noopener" class="pkg-cta">Reservar Silver</a>
       </div>
     </div>
 
-    <!-- Card 2 — FEATURED -->
-    <div class="card card-svc featured reveal" data-delay="2" data-svc onclick="window.location.hash='#reserva'">
-      <span class="halo"></span>
-      <div class="card-media">
-        <video src="uploads/VID-20251209-WA0000.mp4" autoplay muted loop playsinline preload="metadata" poster="uploads/cabina 2.png" aria-label="Cabina Vertical UV"></video>
-        <span class="card-eyebrow">Técnica · UV</span>
-      </div>
-      <span class="sheen"></span>
-      <div class="card-body">
-        <h3>Cabina Vertical UV</h3>
-        <p>Sesiones rápidas de 10 a 20 minutos en cabina vertical de bronceado de tecnología profesional. Tono parejo y duradero sin tener que esperar al sol.</p>
-        <div class="card-foot">
-          <div class="card-price">
-            <div class="card-price-num">$780</div>
-            <div class="card-price-lbl">por sesión</div>
+    <!-- ── Diamond (centro, featured) ── -->
+    <div class="pkg-card pkg-diamond reveal" data-delay="2">
+      <div class="pkg-diamond-border"></div>
+      <div class="pkg-glow"></div>
+      <div class="pkg-inner">
+        <div class="pkg-header">
+          <div class="pkg-tier">Diamond</div>
+          <div class="pkg-time">⏱ 1:45 hrs</div>
+        </div>
+        <div class="pkg-name">Bronceado Premium</div>
+        <div class="pkg-price-wrap">
+          <div class="pkg-toggle" data-card="diamond">
+            <button class="pkg-toggle-btn active" data-price="$1,280">1 sesión</button>
+            <button class="pkg-toggle-btn" data-price="$2,645">3 sesiones</button>
           </div>
-          <div class="card-arrow">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <div class="pkg-price">
+            <span class="pkg-price-num">$1,280</span>
+            <span class="pkg-price-lbl">por sesión</span>
           </div>
         </div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-list">
+          <li>Bronceado Brasileño con sol</li>
+          <li>Diseño de Bikini personalizado</li>
+          <li>Jugo Activador de Melanina</li>
+          <li>Coctel de frutas o paleta</li>
+          <li>Masaje de exfoliación podal</li>
+          <li>Aplicación de activador bronceo</li>
+          <li>Mascarilla crioterapia de gel frío</li>
+          <li>Ducha con vitamina E y C</li>
+          <li>2 Exfoliaciones corporales</li>
+          <li>Baño de luna <span style="color:var(--ink-mute);font-size:11px;">(emparejamos tu tono y aclaramiento de vellos)</span></li>
+        </ul>
+        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Diamond%20%F0%9F%92%8E" target="_blank" rel="noopener" class="pkg-cta pkg-cta-diamond">Reservar Diamond</a>
       </div>
     </div>
 
-    <!-- Card 3 -->
-    <div class="card card-svc reveal" data-delay="3" data-svc onclick="window.location.hash='#reserva'">
-      <div class="card-media">
-        <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-          <source src="uploads/Aerografía4.mp4" type="video/mp4">
-        </video>
-        <span class="card-eyebrow">Técnica · Aerografía</span>
+    <!-- ── Gold ── -->
+    <div class="pkg-card pkg-gold reveal" data-delay="3">
+      <div class="pkg-glow"></div>
+      <div class="pkg-inner">
+        <div class="pkg-header">
+          <div class="pkg-tier">Gold</div>
+          <div class="pkg-time">⏱ 2:00 hrs</div>
+          <div class="pkg-badge">Signature</div>
+        </div>
+        <div class="pkg-name">Sol + Cabina</div>
+        <div class="pkg-price-wrap">
+          <div class="pkg-price">
+            <span class="pkg-price-num">$1,698</span>
+            <span class="pkg-price-lbl">por sesión</span>
+          </div>
+        </div>
+        <div class="pkg-divider"></div>
+        <ul class="pkg-list">
+          <li>Bronceado Brasileño con sol</li>
+          <li>Diseño de Bikini personalizado</li>
+          <li>Jugo Activador de Melanina</li>
+          <li>Coctel de frutas o paleta</li>
+          <li>Masaje de exfoliación podal</li>
+          <li>Aplicación de activador de bronceo</li>
+          <li>Mascarilla crioterapia de gel frío</li>
+          <li>Ducha con vitamina E y C</li>
+          <li>Exfoliación corporal</li>
+          <li>Baño de luna</li>
+          <li>Sesión de cabina de bronceado</li>
+          <li>Mascarilla de colágeno</li>
+          <li>Hidratación profunda pantenol y colágeno</li>
+        </ul>
+        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Gold%20%E2%9C%A8" target="_blank" rel="noopener" class="pkg-cta">Reservar Gold</a>
       </div>
-      <span class="sheen"></span>
-      <div class="card-body">
+    </div>
+
+  </div><!-- /pkg-grid -->
+
+  <!-- ── Aerografía standalone ── -->
+  <div class="pkg-aero reveal" data-delay="4">
+    <div class="pkg-aero-inner">
+      <div class="pkg-aero-left">
+        <span class="eyebrow">Técnica adicional</span>
         <h3>Aerografía Corporal</h3>
-        <p>Aplicación manual con aerógrafo profesional. Cobertura total, sin manchas, sin UV. Ideal para bodas, sesiones de fotos y eventos donde necesitas tu glow al instante.</p>
-        <div class="card-foot">
-          <div class="card-price">
-            <div class="card-price-num">$995</div>
-            <div class="card-price-lbl">por sesión</div>
+        <p>Bronceado instantáneo con aerógrafo profesional. Cobertura total, secado rápido. Permanece 8–10 días. Ideal para bodas, sesiones de fotos y eventos.</p>
+      </div>
+      <div class="pkg-aero-right">
+        <div class="pkg-aero-prices">
+          <div>
+            <span class="pkg-aero-price">$995</span>
+            <span class="pkg-aero-lbl">Aerografía</span>
           </div>
-          <div class="card-arrow">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <div class="pkg-aero-divider"></div>
+          <div>
+            <span class="pkg-aero-price">$200</span>
+            <span class="pkg-aero-lbl">+ Bikini tape</span>
           </div>
         </div>
+        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20Aerograf%C3%ADa%20%F0%9F%8E%A8" target="_blank" rel="noopener" class="pkg-cta">Reservar Aerografía</a>
       </div>
     </div>
   </div>
+
 </section>
 
 <!-- ───── ABOUT ───── -->
@@ -2962,6 +3468,47 @@ footer {
       heroVideo.querySelectorAll('source').forEach(s => s.remove());
     }
   }
+
+  // ── Package cards: price toggle ──────────────────────────
+  document.querySelectorAll('.pkg-toggle').forEach(function(toggle) {
+    const btns = toggle.querySelectorAll('.pkg-toggle-btn');
+    const card = toggle.closest('.pkg-card');
+    const priceNum = card ? card.querySelector('.pkg-price-num') : null;
+
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        if (priceNum && btn.dataset.price) {
+          // Animate price swap
+          priceNum.style.opacity = '0';
+          priceNum.style.transform = 'translateY(8px)';
+          setTimeout(function() {
+            priceNum.textContent = btn.dataset.price;
+            priceNum.style.opacity = '1';
+            priceNum.style.transform = 'translateY(0)';
+          }, 200);
+        }
+      });
+    });
+  });
+
+  // ── Package cards: mouse-follow glow ─────────────────────
+  (function() {
+    const cards = document.querySelectorAll('.pkg-card');
+    if (window.matchMedia('(hover: none)').matches) return; // skip touch
+
+    cards.forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+        const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--mx', x);
+        card.style.setProperty('--my', y);
+      });
+    });
+  })();
+
 </script>
 
 </body>
