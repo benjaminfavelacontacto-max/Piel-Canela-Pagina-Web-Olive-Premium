@@ -2003,6 +2003,14 @@ footer {
   .hero-actions { flex-direction: column; }
 }
 
+/* Hero — video por dispositivo */
+.hero-bg video.desktop { display: block; }
+.hero-bg video.mobile  { display: none; }
+@media (max-width: 768px) {
+  .hero-bg video.desktop { display: none; }
+  .hero-bg video.mobile  { display: block; }
+}
+
 </style>
 </head>
 <body>
@@ -2038,8 +2046,11 @@ footer {
 <!-- ───── HERO ───── -->
 <section class="hero" id="inicio">
   <div class="hero-bg">
-    <video autoplay muted loop playsinline preload="auto" poster="uploads/header 2.png">
+    <video class="desktop" autoplay muted loop playsinline preload="auto" poster="uploads/header 2.png">
       <source src="uploads/Mainheader.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline preload="auto" poster="uploads/header 2.png">
+      <source src="uploads/Mainheadermobil.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-blob b1"></div>
