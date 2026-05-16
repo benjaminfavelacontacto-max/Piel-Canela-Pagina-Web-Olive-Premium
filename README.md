@@ -41,7 +41,7 @@ El archivo `index.html` está organizado con comentarios que marcan cada secció
 | `<!-- ───── SERVICIOS ───── -->` | Cards de los 3 servicios principales |
 | `<!-- ───── ABOUT ───── -->` | Sección "Nosotros" con imagen y valores |
 | `<!-- ───── REELS ───── -->` | Galería de 3 imágenes principales |
-| `<!-- ───── GALERÍA ───── -->` | Grid masonry de resultados |
+| `<!-- ───── GALERÍA ───── -->` | Galería marquee scroll-driven (dos filas horizontales animadas) |
 | `<!-- ───── BOOKING ───── -->` | Formulario de reserva con envío a WhatsApp |
 | `<!-- ───── TESTIMONIOS ───── -->` | Widget de reseñas de Google (Trustindex) |
 | `<!-- ───── FAQ ───── -->` | Preguntas frecuentes con acordeón |
@@ -98,7 +98,7 @@ Busca `<!-- ───── FAQ ───── -->` y edita los bloques `.faq-i
 Busca `<!-- ───── CONTACT ───── -->`:
 ```html
 <div class="contact-val">Av. Guadalupe 6304, Zapopan, GDL</div>
-<div class="contact-val">Lun – Dom · 09:00–17:00 hrs</div>
+<div class="contact-val">Lun – Dom · 08:30–17:30 hrs</div>
 ```
 
 ### Cambiar textos del hero
@@ -206,7 +206,7 @@ Si el nombre del archivo ya existe en `uploads/` y el contenido es distinto, te 
 | **WhatsApp** | +52 333 250 8073 |
 | **Instagram** | [@pielcanela_spabronceado](https://www.instagram.com/pielcanela_spabronceado/) |
 | **Dirección** | Av. Guadalupe 6304, Zapopan, Guadalajara |
-| **Horario** | Lun – Dom · 09:00–17:00 hrs |
+| **Horario** | Lun – Dom · 08:30–17:30 hrs |
 
 ---
 
