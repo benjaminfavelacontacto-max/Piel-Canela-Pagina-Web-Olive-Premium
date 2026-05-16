@@ -2038,15 +2038,9 @@ footer {
 <!-- ───── HERO ───── -->
 <section class="hero" id="inicio">
   <div class="hero-bg">
-    <video id="hero-vid" autoplay muted loop playsinline preload="auto" fetchpriority="high">
+    <video id="hero-vid" autoplay muted loop playsinline preload="auto" fetchpriority="high" poster="uploads/header 2.png">
       <source src="uploads/Mainheader.mp4" type="video/mp4">
     </video>
-    <script>
-      (function(){
-        var v = document.getElementById('hero-vid');
-        if(v){ v.load(); v.play().catch(function(){}); }
-      })();
-    </script>
   </div>
   <div class="hero-blob b1"></div>
   <div class="hero-blob b2"></div>
@@ -2712,5 +2706,9 @@ footer {
   }
 </script>
 
+<script>
+  var v = document.getElementById('hero-vid');
+  if(v){ v.load(); v.play().catch(function(){}); }
+</script>
 </body>
 </html>
