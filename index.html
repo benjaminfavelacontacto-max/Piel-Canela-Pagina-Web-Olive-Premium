@@ -681,6 +681,9 @@ button { font-family: inherit; cursor: pointer; }
   white-space: nowrap;
   animation: tickerSlide 36s linear infinite;
   width: max-content;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .ticker-track span {
   font-family: var(--ff-display);
