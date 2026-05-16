@@ -2018,87 +2018,6 @@ footer {
   .hero-bg video.mobile  { display: block; }
 }
 
-/* ──────────────────────────────────────────────────────────
-   GALLERY MARQUEE · scroll-driven horizontal motion
-   ────────────────────────────────────────────────────────── */
-.gallery-marquee {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-left: calc(-1 * var(--pad-x));
-  margin-right: calc(-1 * var(--pad-x));
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-.gallery-row {
-  display: flex;
-  gap: 14px;
-  will-change: transform;
-  padding-left: 14px;
-}
-.gallery-tile {
-  flex-shrink: 0;
-  width: clamp(240px, 25vw, 390px);
-  height: clamp(170px, 17vw, 260px);
-  border-radius: var(--radius);
-  overflow: hidden;
-  position: relative;
-  background: var(--bg-3);
-  border: 1px solid var(--border-soft);
-  cursor: pointer;
-  isolation: isolate;
-}
-.gallery-tile img,
-.gallery-tile video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.5s var(--ease-soft), filter .5s;
-  pointer-events: none;
-  display: block;
-}
-.gallery-tile:hover img,
-.gallery-tile:hover video { transform: scale(1.07); filter: brightness(1.05); }
-.gallery-tile-overlay {
-  position: absolute;
-  inset: 0;
-  padding: 18px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  background: linear-gradient(to top, rgba(30, 38, 32, 0.88) 0%, transparent 55%);
-  opacity: 0;
-  transition: opacity .45s;
-  z-index: 2;
-}
-.gallery-tile:hover .gallery-tile-overlay { opacity: 1; }
-.gallery-tile-lbl {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-warm);
-  margin-bottom: 4px;
-}
-.gallery-tile-title {
-  font-family: var(--ff-display);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
-  line-height: 1.25;
-}
-@media (max-width: 640px) {
-  .gallery-tile {
-    width: clamp(190px, 52vw, 270px);
-    height: clamp(135px, 36vw, 195px);
-  }
-  .gallery-marquee { gap: 10px; }
-  .gallery-row { gap: 10px; padding-left: 10px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .gallery-row { will-change: auto !important; transform: none !important; }
-}
-
 </style>
 </head>
 <body>
@@ -2395,58 +2314,65 @@ footer {
     </a>
   </div>
 
-  <div class="gallery-marquee" id="galleryMarquee">
-
-    <!-- Fila 1 · se desliza hacia la DERECHA al hacer scroll -->
-    <div class="gallery-row" id="galleryRow1">
-      <!-- set A -->
-      <div class="gallery-tile"><img src="uploads/2 morena.jpg" alt="Bronceado natural" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Bronceado natural</div></div></div>
-      <div class="gallery-tile"><img src="uploads/blanca.jpg" alt="Antes y después" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Antes / Después</div><div class="gallery-tile-title">Transformación</div></div></div>
-      <div class="gallery-tile"><img src="uploads/Aerografia 2.png" alt="Aerografía" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Aerografía</div><div class="gallery-tile-title">Acabado impecable</div></div></div>
-      <div class="gallery-tile"><img src="uploads/lugar.jpg" alt="Interior del spa" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Ambiente</div><div class="gallery-tile-title">Tu espacio exclusivo</div></div></div>
-      <div class="gallery-tile"><img src="uploads/resultados ancha.jpg" alt="Diseño bikini" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Diseño</div><div class="gallery-tile-title">Tu bikini, tu estilo</div></div></div>
-      <div class="gallery-tile"><img src="uploads/amiga 2.jpg" alt="Resultado piel" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Piel radiante</div></div></div>
-      <!-- set B (aria-hidden para accesibilidad) -->
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/2 morena.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Bronceado natural</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/blanca.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Antes / Después</div><div class="gallery-tile-title">Transformación</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/Aerografia 2.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Aerografía</div><div class="gallery-tile-title">Acabado impecable</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/lugar.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Ambiente</div><div class="gallery-tile-title">Tu espacio exclusivo</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/resultados ancha.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Diseño</div><div class="gallery-tile-title">Tu bikini, tu estilo</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/amiga 2.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Piel radiante</div></div></div>
-      <!-- set C -->
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/2 morena.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Bronceado natural</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/blanca.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Antes / Después</div><div class="gallery-tile-title">Transformación</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/Aerografia 2.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Aerografía</div><div class="gallery-tile-title">Acabado impecable</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/lugar.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Ambiente</div><div class="gallery-tile-title">Tu espacio exclusivo</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/resultados ancha.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Diseño</div><div class="gallery-tile-title">Tu bikini, tu estilo</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/amiga 2.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Piel radiante</div></div></div>
+  <div class="masonry">
+    <div class="mason m1 reveal">
+      <img src="uploads/2 morena.jpg" alt="Resultado bronceado natural">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Resultado</div>
+        <div class="mason-overlay-title">Bronceado natural</div>
+      </div>
     </div>
-
-    <!-- Fila 2 · se desliza hacia la IZQUIERDA al hacer scroll -->
-    <div class="gallery-row" id="galleryRow2">
-      <!-- set A -->
-      <div class="gallery-tile"><img src="uploads/cabina 2.png" alt="Cabina UV" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">UV</div><div class="gallery-tile-title">Cabina vertical</div></div></div>
-      <div class="gallery-tile"><img src="uploads/comida chido.jpg" alt="Alimentos y bebidas" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Experiencia</div><div class="gallery-tile-title">Alimentos &amp; bebidas</div></div></div>
-      <div class="gallery-tile"><img src="uploads/cintas 2.png" alt="Cintas bronceado" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Diseño</div><div class="gallery-tile-title">Cintas perfectas</div></div></div>
-      <div class="gallery-tile"><img src="uploads/472216409_18030343886614735_3156665837705834940_n.jpg" alt="Resultado piel dorada" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Piel dorada</div></div></div>
-      <div class="gallery-tile"><img src="uploads/cabina.png" alt="Cabina Piel Canela" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Instalaciones</div><div class="gallery-tile-title">Tu cabina premium</div></div></div>
-      <div class="gallery-tile"><img src="uploads/502049821_634869792913883_4303351305307499014_n.jpg" alt="Bronceado profesional" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Bronceado</div><div class="gallery-tile-title">Profesional</div></div></div>
-      <!-- set B -->
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/cabina 2.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">UV</div><div class="gallery-tile-title">Cabina vertical</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/comida chido.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Experiencia</div><div class="gallery-tile-title">Alimentos &amp; bebidas</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/cintas 2.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Diseño</div><div class="gallery-tile-title">Cintas perfectas</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/472216409_18030343886614735_3156665837705834940_n.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Piel dorada</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/cabina.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Instalaciones</div><div class="gallery-tile-title">Tu cabina premium</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/502049821_634869792913883_4303351305307499014_n.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Bronceado</div><div class="gallery-tile-title">Profesional</div></div></div>
-      <!-- set C -->
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/cabina 2.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">UV</div><div class="gallery-tile-title">Cabina vertical</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/comida chido.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Experiencia</div><div class="gallery-tile-title">Alimentos &amp; bebidas</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/cintas 2.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Diseño</div><div class="gallery-tile-title">Cintas perfectas</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/472216409_18030343886614735_3156665837705834940_n.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Resultado</div><div class="gallery-tile-title">Piel dorada</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/cabina.png" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Instalaciones</div><div class="gallery-tile-title">Tu cabina premium</div></div></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="uploads/502049821_634869792913883_4303351305307499014_n.jpg" alt="" loading="lazy"><div class="gallery-tile-overlay"><div class="gallery-tile-lbl">Bronceado</div><div class="gallery-tile-title">Profesional</div></div></div>
+    <div class="mason m2 reveal" data-delay="1">
+      <img src="uploads/blanca.jpg" alt="Antes y después">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Antes / Después</div>
+        <div class="mason-overlay-title">Transformación</div>
+      </div>
     </div>
-
+    <div class="mason m3 reveal" data-delay="2">
+      <img src="uploads/Aerografia 2.png" alt="Aerografía profesional">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Aerografía</div>
+        <div class="mason-overlay-title">Acabado impecable</div>
+      </div>
+    </div>
+    <div class="mason m4 reveal" data-delay="3">
+      <img src="uploads/lugar.jpg" alt="Interior del spa">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Ambiente</div>
+        <div class="mason-overlay-title">Tu espacio exclusivo</div>
+      </div>
+    </div>
+    <div class="mason m5 reveal" data-delay="4">
+      <img src="uploads/cabina 2.png" alt="Cabina UV">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">UV</div>
+        <div class="mason-overlay-title">Cabina vertical</div>
+      </div>
+    </div>
+    <div class="mason m6 reveal" data-delay="5">
+      <img src="uploads/resultados ancha.jpg" alt="Cintas diseño bikini">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Diseño</div>
+        <div class="mason-overlay-title">Tu bikini, tu estilo</div>
+      </div>
+    </div>
+    <div class="mason m7 reveal" data-delay="6">
+      <img src="uploads/comida chido.jpg" alt="Alimentos y bebidas Piel Canela">
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Experiencia completa</div>
+        <div class="mason-overlay-title">Alimentos &amp; bebidas para una sesión inolvidable</div>
+      </div>
+    </div>
+    <div class="mason m8 reveal" data-delay="7">
+      <video autoplay muted loop playsinline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <source src="uploads/pielblanca1.mp4" type="video/mp4">
+      </video>
+      <div class="mason-overlay">
+        <div class="mason-overlay-lbl">Piel radiante</div>
+        <div class="mason-overlay-title">Tu tono perfecto,<br>desde la primera vez.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2804,38 +2730,6 @@ footer {
 
     window.open(`https://wa.me/523332508073?text=${encodeURIComponent(msg)}`, '_blank');
   }
-
-  // Gallery marquee — scroll-driven horizontal parallax
-  (function () {
-    const section  = document.getElementById('galeria');
-    const row1     = document.getElementById('galleryRow1');
-    const row2     = document.getElementById('galleryRow2');
-    if (!section || !row1 || !row2) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const SPEED  = 0.28;   // factor de velocidad (mayor = más rápido)
-    const OFFSET = 320;    // desplazamiento inicial para centrar
-
-    let rafId = null;
-
-    function updateMarquee() {
-      const rect      = section.getBoundingClientRect();
-      const sectionY  = rect.top + window.scrollY;
-      const progress  = (window.scrollY - sectionY + window.innerHeight) * SPEED;
-      const delta     = progress - OFFSET;
-      row1.style.transform = `translate3d(${delta}px, 0, 0)`;
-      row2.style.transform = `translate3d(${-delta}px, 0, 0)`;
-      rafId = null;
-    }
-
-    window.addEventListener('scroll', () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(updateMarquee);
-    }, { passive: true });
-
-    // Posición inicial
-    updateMarquee();
-  })();
 
   // Light video autoplay management — pause off-screen
   const heroVideo = document.querySelector('.hero-bg video');
