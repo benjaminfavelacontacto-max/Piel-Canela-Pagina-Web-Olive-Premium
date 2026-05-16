@@ -2232,6 +2232,125 @@ footer {
   to { --angle: 360deg; }
 }
 
+/* ──────────────────────────────────────────────────────────
+   CINEMATIC AMBIENT VIDEO LAYERS · Layer stack:
+   [1] video background  [2] veil gradient  [3] glass glow  [4] content
+   ────────────────────────────────────────────────────────── */
+
+.pkg-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.pkg-video-bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Ambient: near-invisible, maximally blurred, desaturated */
+  opacity: 0.07;
+  filter: blur(18px) saturate(0.6) brightness(0.7);
+  transform: scale(1.12); /* prevents blur edge bleed */
+  transition:
+    opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter  1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, filter;
+}
+
+/* Hover: breathe the depth up — imperceptibly more present */
+.pkg-card:hover .pkg-video-bg video {
+  opacity: 0.13;
+  filter: blur(14px) saturate(0.75) brightness(0.75);
+}
+
+/* Gradient veil — seals the video behind glass */
+.pkg-video-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      175deg,
+      rgba(18, 24, 20, 0.90) 0%,
+      rgba(22, 28, 24, 0.78) 40%,
+      rgba(18, 24, 20, 0.85) 100%
+    );
+  z-index: 1;
+}
+
+/* Diamond video — cooler, deeper, more cinematic */
+.pkg-diamond .pkg-video-bg video {
+  opacity: 0.09;
+  filter: blur(20px) saturate(0.5) brightness(0.55) contrast(1.1);
+}
+.pkg-diamond:hover .pkg-video-bg video {
+  opacity: 0.15;
+  filter: blur(15px) saturate(0.65) brightness(0.60) contrast(1.08);
+}
+.pkg-diamond .pkg-video-veil {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(194,168,120,0.05) 0%, transparent 60%),
+    linear-gradient(
+      175deg,
+      rgba(14, 20, 18, 0.93) 0%,
+      rgba(18, 26, 22, 0.80) 45%,
+      rgba(14, 20, 18, 0.90) 100%
+    );
+}
+
+/* Gold video — warmer hue shift */
+.pkg-gold .pkg-video-bg video {
+  opacity: 0.08;
+  filter: blur(16px) saturate(0.55) brightness(0.60) sepia(0.18) hue-rotate(-8deg);
+}
+.pkg-gold:hover .pkg-video-bg video {
+  opacity: 0.12;
+  filter: blur(12px) saturate(0.70) brightness(0.65) sepia(0.22) hue-rotate(-8deg);
+}
+.pkg-gold .pkg-video-veil {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(184,155,104,0.06) 0%, transparent 60%),
+    linear-gradient(
+      175deg,
+      rgba(22, 18, 14, 0.92) 0%,
+      rgba(26, 22, 16, 0.78) 45%,
+      rgba(22, 18, 14, 0.88) 100%
+    );
+}
+
+/* Ensure glow and inner sit above video layers */
+.pkg-card .pkg-glow { z-index: 2; }
+.pkg-card .pkg-inner { z-index: 3; }
+.pkg-card .pkg-diamond-border { z-index: 4; }
+.pkg-card::after { z-index: 5; } /* mouse-glow radial */
+
+/* Silver: purely CSS animated gradient depth — no video */
+.pkg-silver {
+  background: rgba(24, 32, 36, 0.78);
+}
+.pkg-silver::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 80% 55% at 30% 20%, rgba(160,190,210,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 75% 80%, rgba(140,170,190,0.04) 0%, transparent 55%);
+  animation: silver-breathe 8s ease-in-out infinite alternate;
+  z-index: 1;
+  pointer-events: none;
+}
+@keyframes silver-breathe {
+  0%   { opacity: 0.6; transform: scale(1.00); }
+  50%  { opacity: 1.0; transform: scale(1.04); }
+  100% { opacity: 0.7; transform: scale(1.02); }
+}
+
+/* ── ── */
+
 /* ── Gold ── */
 .pkg-gold {
   border-color: rgba(194,168,120,0.20);
@@ -2542,6 +2661,564 @@ footer {
   .pkg-aero-prices { flex-wrap: wrap; }
 }
 
+/* ──────────────────────────────────────────────────────────
+   SVC v2 · Progressive Disclosure — Techniques → Packages
+   ────────────────────────────────────────────────────────── */
+
+/* Section */
+.svc-section { position: relative; }
+
+/* ── Cards row ── */
+.svc-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+/* ── Individual card (button) ── */
+.svc-item { display: contents; }
+.svc-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: none;
+  border-radius: 22px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--bg-1);
+  outline: none;
+  transition: transform .55s var(--ease-out), box-shadow .55s var(--ease-out);
+  /* Highlight border via box-shadow inset — no reflow */
+  box-shadow:
+    inset 0 0 0 1px rgba(244,241,234,0.07),
+    0 8px 32px -10px rgba(0,0,0,0.4);
+}
+.svc-card:hover {
+  transform: translateY(-8px) scale(1.008);
+  box-shadow:
+    inset 0 0 0 1px rgba(194,168,120,0.22),
+    0 28px 72px -18px rgba(0,0,0,0.65);
+}
+.svc-card.active {
+  box-shadow:
+    inset 0 0 0 1.5px rgba(194,168,120,0.45),
+    0 0 0 3px rgba(194,168,120,0.08),
+    0 28px 72px -18px rgba(0,0,0,0.65);
+  transform: translateY(-6px);
+}
+.svc-sol.active   { box-shadow: inset 0 0 0 1.5px rgba(212,167,106,0.55), 0 0 0 3px rgba(212,167,106,0.10), 0 28px 72px -18px rgba(0,0,0,0.65); }
+.svc-cabina.active{ box-shadow: inset 0 0 0 1.5px rgba(168,196,212,0.50), 0 0 0 3px rgba(168,196,212,0.08), 0 28px 72px -18px rgba(0,0,0,0.65); }
+.svc-aero.active  { box-shadow: inset 0 0 0 1.5px rgba(184,200,184,0.50), 0 0 0 3px rgba(184,200,184,0.08), 0 28px 72px -18px rgba(0,0,0,0.65); }
+
+/* ── Video background ── */
+.svc-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.svc-video-bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transform: scale(1.0);
+  transition: transform 1s var(--ease-out);
+}
+.svc-card:hover .svc-video-bg video,
+.svc-card.active .svc-video-bg video {
+  transform: scale(1.03);
+}
+
+/* ── Veil gradients (per technique) ── */
+.svc-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.svc-veil-sol {
+  background:
+    linear-gradient(175deg, rgba(14,18,12,0.28) 0%, rgba(14,18,12,0.10) 35%, rgba(10,14,10,0.92) 100%),
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(212,167,106,0.08) 0%, transparent 60%);
+}
+.svc-veil-cabina {
+  background:
+    linear-gradient(175deg, rgba(12,16,20,0.28) 0%, rgba(12,16,20,0.10) 35%, rgba(10,14,18,0.92) 100%),
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(168,196,212,0.07) 0%, transparent 60%);
+}
+.svc-veil-aero {
+  background:
+    linear-gradient(175deg, rgba(12,16,14,0.28) 0%, rgba(12,16,14,0.10) 35%, rgba(10,14,12,0.92) 100%),
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(184,200,184,0.06) 0%, transparent 60%);
+}
+
+/* ── Card body (content over video) ── */
+.svc-body {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(22px, 3vw, 32px);
+  text-align: left;
+}
+.svc-num {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  color: rgba(244,241,234,0.28);
+}
+.svc-card.active .svc-num { color: rgba(194,168,120,0.55); }
+
+.svc-text {
+  margin-bottom: 18px;
+  transform: translateY(4px);
+  transition: transform .5s var(--ease-out);
+}
+.svc-card:hover .svc-text,
+.svc-card.active .svc-text { transform: translateY(0); }
+
+.svc-text h3 {
+  font-family: var(--ff-display);
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 7px;
+}
+.svc-text p {
+  font-family: var(--ff-body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  opacity: 0.82;
+}
+
+.svc-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  border-top: 1px solid rgba(244,241,234,0.09);
+  padding-top: 14px;
+  transition: color .35s;
+}
+.svc-card:hover .svc-hint { color: var(--gold-warm); }
+.svc-card.active .svc-hint { color: var(--gold-warm); }
+
+.svc-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .45s var(--ease-out);
+}
+.svc-card.active .svc-chevron { transform: rotate(180deg); }
+
+/* ── Luxury sheen ── */
+.svc-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .6s;
+}
+.svc-card:hover .svc-sheen { opacity: 1; }
+.svc-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent 0%, rgba(244,241,234,0.04) 50%, transparent 100%);
+  transform: skewX(-18deg);
+  transition: left 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.svc-card:hover .svc-sheen::after { left: 160%; }
+
+/* ── Expansion panels ── */
+.svc-panels-wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+.svc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .72s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.svc-panel.open { grid-template-rows: 1fr; }
+
+.svc-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+.svc-panel-inner > * {
+  /* Stagger fade-in when panel opens */
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+}
+.svc-panel.open .svc-panel-inner > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.svc-panel.open .svc-panel-inner > *:nth-child(1) { transition-delay: 0.18s; }
+.svc-panel.open .svc-panel-inner > *:nth-child(2) { transition-delay: 0.26s; }
+.svc-panel.open .svc-panel-inner > *:nth-child(3) { transition-delay: 0.34s; }
+
+/* Panel padding + decoration */
+.svc-panel-inner > .svc-panel-head,
+.svc-panel-inner > .svc-pkgs {
+  padding: 36px 0 0;
+}
+.svc-panel-inner > .svc-pkgs { padding-bottom: 12px; }
+
+/* Panel header */
+.svc-panel-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+.svc-panel-label { display: flex; flex-direction: column; gap: 4px; }
+.svc-panel-eyebrow {
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+}
+.svc-panel-title {
+  font-family: var(--ff-display);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+}
+.svc-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: rgba(255,255,255,0.04);
+  color: var(--ink-mute);
+  cursor: pointer;
+  transition: background .25s, border-color .25s, color .25s;
+}
+.svc-close:hover {
+  background: rgba(194,168,120,0.12);
+  border-color: rgba(194,168,120,0.35);
+  color: var(--gold-warm);
+}
+
+/* Package cards grid */
+.svc-pkgs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.svc-pkgs-center {
+  grid-template-columns: minmax(0, 540px);
+  justify-content: center;
+}
+
+/* ── Package card ── */
+.svc-pkg {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--border-soft);
+  background: rgba(30,38,32,0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: clamp(24px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  transition: border-color .35s, box-shadow .35s;
+}
+.svc-pkg:hover { border-color: rgba(194,168,120,0.28); }
+
+/* Tier row */
+.svc-pkg-tier-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.svc-pkg-tier {
+  font-family: var(--ff-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 4px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(194,168,120,0.35);
+  color: var(--gold-warm);
+  background: rgba(194,168,120,0.08);
+}
+.svc-pkg-dur {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+.svc-pkg-badge {
+  margin-left: auto;
+  font-family: var(--ff-body);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bg-0);
+  background: linear-gradient(135deg, #C2A878, #D4BC94, #B89B68);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* Package name */
+.svc-pkg-name {
+  font-family: var(--ff-display);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Segmented control */
+.svc-seg-ctrl {
+  display: flex;
+  gap: 3px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 3px;
+  width: fit-content;
+}
+.svc-seg {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 16px;
+  border-radius: 999px;
+  transition: background .25s, color .25s;
+}
+.svc-seg.active {
+  background: rgba(194,168,120,0.18);
+  color: var(--gold-warm);
+}
+.svc-seg:hover:not(.active) { color: var(--ink-soft); }
+
+/* Price block */
+.svc-pkg-price-block { display: flex; align-items: baseline; gap: 8px; }
+.svc-pkg-num {
+  font-family: var(--ff-display);
+  font-size: clamp(32px, 3.5vw, 44px);
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: opacity .2s ease, transform .2s var(--ease-out);
+  will-change: opacity, transform;
+}
+.svc-pkg-sublabel {
+  font-family: var(--ff-body);
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+/* Dual price (Aerografía) */
+.svc-pkg-dual-price {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.svc-pkg-price-sep {
+  width: 1px; height: 44px;
+  background: var(--border-soft);
+}
+
+/* Feature list */
+.svc-pkg-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.svc-pkg-list li {
+  font-family: var(--ff-body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.4;
+}
+.svc-pkg-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold-warm);
+  opacity: 0.55;
+}
+
+/* CTA */
+.svc-pkg-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cream);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 13px 28px;
+  transition: background .3s, border-color .3s, transform .2s;
+  margin-top: auto;
+}
+.svc-pkg-cta:hover {
+  background: rgba(194,168,120,0.15);
+  border-color: rgba(194,168,120,0.45);
+  transform: translateY(-2px);
+}
+.svc-pkg-cta-gold {
+  background: linear-gradient(135deg, rgba(194,168,120,0.20), rgba(184,155,104,0.26));
+  border-color: rgba(194,168,120,0.45);
+  color: var(--gold-warm);
+}
+.svc-pkg-cta-gold:hover {
+  background: linear-gradient(135deg, rgba(194,168,120,0.35), rgba(184,155,104,0.42));
+  border-color: rgba(194,168,120,0.65);
+  color: var(--cream);
+}
+
+/* ── Silver package card ── */
+.svc-pkg-silver {
+  border-color: rgba(160,184,200,0.15);
+  background: rgba(24,32,38,0.70);
+}
+.svc-pkg-silver .svc-pkg-tier {
+  border-color: rgba(160,184,200,0.35);
+  color: #a0b8c8;
+  background: rgba(160,184,200,0.07);
+}
+.svc-pkg-silver .svc-pkg-num { color: var(--cream); }
+
+/* ── Diamond package card ── */
+.svc-pkg-diamond {
+  border-color: transparent;
+  background: rgba(22,28,24,0.85);
+  box-shadow:
+    0 0 0 1px rgba(194,168,120,0.22),
+    0 20px 60px -16px rgba(0,0,0,0.6),
+    0 0 50px -18px rgba(194,168,120,0.15);
+}
+.svc-pkg-diamond .svc-pkg-num { color: var(--gold-warm); }
+
+/* Rotating ring for Diamond */
+.svc-pkg-diamond-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  z-index: 0;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    rgba(194,168,120,0) 60deg,
+    rgba(194,168,120,0.8) 120deg,
+    rgba(244,241,234,0.88) 160deg,
+    rgba(194,168,120,0.8) 200deg,
+    rgba(194,168,120,0) 260deg,
+    transparent 360deg
+  );
+  animation: diamond-spin 4s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+  pointer-events: none;
+}
+
+/* ── Gold package card ── */
+.svc-pkg-gold {
+  border-color: rgba(194,168,120,0.18);
+  background: rgba(28,24,18,0.75);
+}
+.svc-pkg-gold .svc-pkg-num { color: var(--cream); }
+
+/* ── Aerografía package card ── */
+.svc-pkg-aero {
+  border-color: rgba(184,200,184,0.15);
+  background: rgba(24,30,26,0.72);
+}
+.svc-pkg-aero .svc-pkg-tier {
+  border-color: rgba(184,200,184,0.30);
+  color: #b8c8b8;
+  background: rgba(184,200,184,0.07);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .svc-cards-row { gap: 10px; }
+  .svc-card { aspect-ratio: 2 / 3; }
+}
+@media (max-width: 640px) {
+  .svc-cards-row {
+    grid-template-columns: repeat(3, min(68vw, 240px));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+    gap: 10px;
+  }
+  .svc-cards-row::-webkit-scrollbar { display: none; }
+  .svc-item { display: block; }
+  .svc-card {
+    scroll-snap-align: center;
+    aspect-ratio: 2 / 3.2;
+    border-radius: 18px;
+  }
+  .svc-pkgs { grid-template-columns: 1fr; }
+  .svc-pkgs-center { grid-template-columns: 1fr; }
+  .svc-panel-inner > .svc-panel-head,
+  .svc-panel-inner > .svc-pkgs { padding-top: 24px; }
+}
 </style>
 
 <!-- Schema Markup — LocalBusiness -->
@@ -2736,149 +3413,265 @@ footer {
 </div>
 
 <!-- ───── SERVICIOS ───── -->
-<section class="services pkg-section section-pad" id="servicios">
+<section class="svc-section section-pad" id="servicios">
   <div class="section-head">
-    <div class="reveal"><span class="eyebrow">Paquetes</span></div>
-    <h2 class="section-title reveal" data-delay="1">Elige tu<br><em>experiencia perfecta</em></h2>
-    <p class="section-desc reveal" data-delay="2">Cada paquete es un ritual completo. Desde el jugo activador de melanina hasta la ducha final con vitaminas, cada detalle está pensado para que salgas radiante.</p>
+    <div class="reveal"><span class="eyebrow">Técnicas</span></div>
+    <h2 class="section-title reveal" data-delay="1">Tres formas de lograr<br>tu <em>bronceado perfecto</em></h2>
+    <p class="section-desc reveal" data-delay="2">Selecciona la técnica. Cada una esconde su propio ritual de lujo.</p>
   </div>
 
-  <!-- Cards Grid -->
-  <div class="pkg-grid">
+  <!-- ── Fila de cards cinematográficas ── -->
+  <div class="svc-cards-row">
 
-    <!-- ── Silver ── -->
-    <div class="pkg-card pkg-silver reveal" data-delay="1">
-      <div class="pkg-glow"></div>
-      <div class="pkg-inner">
-        <div class="pkg-header">
-          <div class="pkg-tier">Silver</div>
-          <div class="pkg-time">⏱ 1:30 hrs</div>
+    <!-- Sol -->
+    <div class="svc-item reveal" data-delay="1">
+      <button class="svc-card svc-sol" data-target="sol" aria-expanded="false" aria-controls="panel-sol">
+        <div class="svc-video-bg">
+          <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="uploads/SolUVNatural.mp4" type="video/mp4">
+          </video>
+          <div class="svc-veil svc-veil-sol"></div>
         </div>
-        <div class="pkg-name">Sol UV Natural</div>
-        <div class="pkg-price-wrap">
-          <div class="pkg-toggle" data-card="silver">
-            <button class="pkg-toggle-btn active" data-price="$780">1 sesión</button>
-            <button class="pkg-toggle-btn" data-price="$2,180">3 sesiones</button>
+        <div class="svc-body">
+          <span class="svc-num">01</span>
+          <div class="svc-text">
+            <h3>Sol UV Natural</h3>
+            <p>Bronceado brasileño auténtico bajo el sol</p>
           </div>
-          <div class="pkg-price">
-            <span class="pkg-price-num">$780</span>
-            <span class="pkg-price-lbl">por sesión</span>
+          <div class="svc-hint">
+            <span>Ver paquetes</span>
+            <span class="svc-chevron"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
           </div>
         </div>
-        <div class="pkg-divider"></div>
-        <ul class="pkg-list">
-          <li>Bronceado Brasileño con sol</li>
-          <li>Diseño de Bikini personalizado</li>
-          <li>Jugo Activador de Melanina</li>
-          <li>Coctel de frutas o paleta</li>
-          <li>Masaje de exfoliación podal</li>
-          <li>Aplicación de bronceador</li>
-          <li>Mascarilla de gel refrescante</li>
-          <li>Ducha con vitamina E y C</li>
-        </ul>
-        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Silver%20%F0%9F%8C%BF" target="_blank" rel="noopener" class="pkg-cta">Reservar Silver</a>
-      </div>
+        <span class="svc-sheen"></span>
+      </button>
     </div>
 
-    <!-- ── Diamond (centro, featured) ── -->
-    <div class="pkg-card pkg-diamond reveal" data-delay="2">
-      <div class="pkg-diamond-border"></div>
-      <div class="pkg-glow"></div>
-      <div class="pkg-inner">
-        <div class="pkg-header">
-          <div class="pkg-tier">Diamond</div>
-          <div class="pkg-time">⏱ 1:45 hrs</div>
+    <!-- Cabina -->
+    <div class="svc-item reveal" data-delay="2">
+      <button class="svc-card svc-cabina" data-target="cabina" aria-expanded="false" aria-controls="panel-cabina">
+        <div class="svc-video-bg">
+          <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="uploads/VID-20251209-WA0000.mp4" type="video/mp4">
+          </video>
+          <div class="svc-veil svc-veil-cabina"></div>
         </div>
-        <div class="pkg-name">Bronceado Premium</div>
-        <div class="pkg-price-wrap">
-          <div class="pkg-toggle" data-card="diamond">
-            <button class="pkg-toggle-btn active" data-price="$1,280">1 sesión</button>
-            <button class="pkg-toggle-btn" data-price="$2,645">3 sesiones</button>
+        <div class="svc-body">
+          <span class="svc-num">02</span>
+          <div class="svc-text">
+            <h3>Cabina Vertical UV</h3>
+            <p>Tono parejo y duradero, sin esperar al sol</p>
           </div>
-          <div class="pkg-price">
-            <span class="pkg-price-num">$1,280</span>
-            <span class="pkg-price-lbl">por sesión</span>
+          <div class="svc-hint">
+            <span>Ver paquetes</span>
+            <span class="svc-chevron"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
           </div>
         </div>
-        <div class="pkg-divider"></div>
-        <ul class="pkg-list">
-          <li>Bronceado Brasileño con sol</li>
-          <li>Diseño de Bikini personalizado</li>
-          <li>Jugo Activador de Melanina</li>
-          <li>Coctel de frutas o paleta</li>
-          <li>Masaje de exfoliación podal</li>
-          <li>Aplicación de activador bronceo</li>
-          <li>Mascarilla crioterapia de gel frío</li>
-          <li>Ducha con vitamina E y C</li>
-          <li>2 Exfoliaciones corporales</li>
-          <li>Baño de luna <span style="color:var(--ink-mute);font-size:11px;">(emparejamos tu tono y aclaramiento de vellos)</span></li>
-        </ul>
-        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Diamond%20%F0%9F%92%8E" target="_blank" rel="noopener" class="pkg-cta pkg-cta-diamond">Reservar Diamond</a>
-      </div>
+        <span class="svc-sheen"></span>
+      </button>
     </div>
 
-    <!-- ── Gold ── -->
-    <div class="pkg-card pkg-gold reveal" data-delay="3">
-      <div class="pkg-glow"></div>
-      <div class="pkg-inner">
-        <div class="pkg-header">
-          <div class="pkg-tier">Gold</div>
-          <div class="pkg-time">⏱ 2:00 hrs</div>
-          <div class="pkg-badge">Signature</div>
+    <!-- Aerografía -->
+    <div class="svc-item reveal" data-delay="3">
+      <button class="svc-card svc-aero" data-target="aerografia" aria-expanded="false" aria-controls="panel-aerografia">
+        <div class="svc-video-bg">
+          <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="uploads/Aerografía4.mp4" type="video/mp4">
+          </video>
+          <div class="svc-veil svc-veil-aero"></div>
         </div>
-        <div class="pkg-name">Sol + Cabina</div>
-        <div class="pkg-price-wrap">
-          <div class="pkg-price">
-            <span class="pkg-price-num">$1,698</span>
-            <span class="pkg-price-lbl">por sesión</span>
+        <div class="svc-body">
+          <span class="svc-num">03</span>
+          <div class="svc-text">
+            <h3>Aerografía Corporal</h3>
+            <p>Bronceado instantáneo, listo para tu gran momento</p>
+          </div>
+          <div class="svc-hint">
+            <span>Ver paquetes</span>
+            <span class="svc-chevron"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
           </div>
         </div>
-        <div class="pkg-divider"></div>
-        <ul class="pkg-list">
-          <li>Bronceado Brasileño con sol</li>
-          <li>Diseño de Bikini personalizado</li>
-          <li>Jugo Activador de Melanina</li>
-          <li>Coctel de frutas o paleta</li>
-          <li>Masaje de exfoliación podal</li>
-          <li>Aplicación de activador de bronceo</li>
-          <li>Mascarilla crioterapia de gel frío</li>
-          <li>Ducha con vitamina E y C</li>
-          <li>Exfoliación corporal</li>
-          <li>Baño de luna</li>
-          <li>Sesión de cabina de bronceado</li>
-          <li>Mascarilla de colágeno</li>
-          <li>Hidratación profunda pantenol y colágeno</li>
-        </ul>
-        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Gold%20%E2%9C%A8" target="_blank" rel="noopener" class="pkg-cta">Reservar Gold</a>
-      </div>
+        <span class="svc-sheen"></span>
+      </button>
     </div>
 
-  </div><!-- /pkg-grid -->
+  </div><!-- /svc-cards-row -->
 
-  <!-- ── Aerografía standalone ── -->
-  <div class="pkg-aero reveal" data-delay="4">
-    <div class="pkg-aero-inner">
-      <div class="pkg-aero-left">
-        <span class="eyebrow">Técnica adicional</span>
-        <h3>Aerografía Corporal</h3>
-        <p>Bronceado instantáneo con aerógrafo profesional. Cobertura total, secado rápido. Permanece 8–10 días. Ideal para bodas, sesiones de fotos y eventos.</p>
-      </div>
-      <div class="pkg-aero-right">
-        <div class="pkg-aero-prices">
-          <div>
-            <span class="pkg-aero-price">$995</span>
-            <span class="pkg-aero-lbl">Aerografía</span>
+  <!-- ── Expansion panels ── -->
+  <div class="svc-panels-wrap">
+
+    <!-- Panel Sol: Silver + Diamond -->
+    <div class="svc-panel" id="panel-sol" data-panel="sol">
+      <div class="svc-panel-inner">
+        <div class="svc-panel-head">
+          <div class="svc-panel-label">
+            <span class="svc-panel-eyebrow">Sol UV Natural</span>
+            <span class="svc-panel-title">Elige tu paquete</span>
           </div>
-          <div class="pkg-aero-divider"></div>
-          <div>
-            <span class="pkg-aero-price">$200</span>
-            <span class="pkg-aero-lbl">+ Bikini tape</span>
-          </div>
+          <button class="svc-close" data-close="sol" aria-label="Cerrar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
         </div>
-        <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20Aerograf%C3%ADa%20%F0%9F%8E%A8" target="_blank" rel="noopener" class="pkg-cta">Reservar Aerografía</a>
+        <div class="svc-pkgs">
+
+          <!-- Silver -->
+          <div class="svc-pkg svc-pkg-silver">
+            <div class="svc-pkg-tier-row">
+              <span class="svc-pkg-tier">Silver</span>
+              <span class="svc-pkg-dur">1:30 hrs</span>
+            </div>
+            <div class="svc-pkg-name">Sol UV Natural</div>
+            <div class="svc-seg-ctrl" data-pkg-id="silver-sol">
+              <button class="svc-seg active" data-price="$780" data-sublabel="por sesión">1 sesión</button>
+              <button class="svc-seg" data-price="$2,180" data-sublabel="paquete × 3">3 sesiones</button>
+            </div>
+            <div class="svc-pkg-price-block">
+              <span class="svc-pkg-num">$780</span>
+              <span class="svc-pkg-sublabel">por sesión</span>
+            </div>
+            <ul class="svc-pkg-list">
+              <li>Bronceado Brasileño con sol</li>
+              <li>Diseño de Bikini personalizado</li>
+              <li>Jugo Activador de Melanina</li>
+              <li>Coctel de frutas o paleta</li>
+              <li>Masaje de exfoliación podal</li>
+              <li>Aplicación de bronceador</li>
+              <li>Mascarilla de gel refrescante</li>
+              <li>Ducha con vitamina E y C</li>
+            </ul>
+            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Silver%20%F0%9F%8C%BF" target="_blank" rel="noopener" class="svc-pkg-cta">Reservar Silver</a>
+          </div>
+
+          <!-- Diamond -->
+          <div class="svc-pkg svc-pkg-diamond">
+            <div class="svc-pkg-diamond-ring"></div>
+            <div class="svc-pkg-tier-row">
+              <span class="svc-pkg-tier">Diamond</span>
+              <span class="svc-pkg-dur">1:45 hrs</span>
+            </div>
+            <div class="svc-pkg-name">Bronceado Premium</div>
+            <div class="svc-seg-ctrl" data-pkg-id="diamond-sol">
+              <button class="svc-seg active" data-price="$1,280" data-sublabel="por sesión">1 sesión</button>
+              <button class="svc-seg" data-price="$2,645" data-sublabel="paquete × 3">3 sesiones</button>
+            </div>
+            <div class="svc-pkg-price-block">
+              <span class="svc-pkg-num">$1,280</span>
+              <span class="svc-pkg-sublabel">por sesión</span>
+            </div>
+            <ul class="svc-pkg-list">
+              <li>Bronceado Brasileño con sol</li>
+              <li>Diseño de Bikini personalizado</li>
+              <li>Jugo Activador de Melanina</li>
+              <li>Coctel de frutas o paleta</li>
+              <li>Masaje de exfoliación podal</li>
+              <li>Aplicación de activador bronceo</li>
+              <li>Mascarilla crioterapia de gel frío</li>
+              <li>Ducha con vitamina E y C</li>
+              <li>2 Exfoliaciones corporales</li>
+              <li>Baño de luna</li>
+            </ul>
+            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Diamond%20%F0%9F%92%8E" target="_blank" rel="noopener" class="svc-pkg-cta svc-pkg-cta-gold">Reservar Diamond</a>
+          </div>
+
+        </div><!-- /svc-pkgs -->
       </div>
-    </div>
-  </div>
+    </div><!-- /panel-sol -->
+
+    <!-- Panel Cabina: Gold -->
+    <div class="svc-panel" id="panel-cabina" data-panel="cabina">
+      <div class="svc-panel-inner">
+        <div class="svc-panel-head">
+          <div class="svc-panel-label">
+            <span class="svc-panel-eyebrow">Cabina Vertical UV</span>
+            <span class="svc-panel-title">Experiencia Signature</span>
+          </div>
+          <button class="svc-close" data-close="cabina" aria-label="Cerrar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="svc-pkgs svc-pkgs-center">
+
+          <!-- Gold -->
+          <div class="svc-pkg svc-pkg-gold">
+            <div class="svc-pkg-tier-row">
+              <span class="svc-pkg-tier">Gold</span>
+              <span class="svc-pkg-dur">2:00 hrs</span>
+              <span class="svc-pkg-badge">Signature</span>
+            </div>
+            <div class="svc-pkg-name">Sol + Cabina</div>
+            <div class="svc-pkg-price-block">
+              <span class="svc-pkg-num">$1,698</span>
+              <span class="svc-pkg-sublabel">por sesión</span>
+            </div>
+            <ul class="svc-pkg-list">
+              <li>Bronceado Brasileño con sol</li>
+              <li>Diseño de Bikini personalizado</li>
+              <li>Jugo Activador de Melanina</li>
+              <li>Coctel de frutas o paleta</li>
+              <li>Masaje de exfoliación podal</li>
+              <li>Aplicación de activador de bronceo</li>
+              <li>Mascarilla crioterapia de gel frío</li>
+              <li>Ducha con vitamina E y C</li>
+              <li>Exfoliación corporal</li>
+              <li>Baño de luna</li>
+              <li>Sesión de cabina de bronceado</li>
+              <li>Mascarilla de colágeno</li>
+              <li>Hidratación profunda pantenol y colágeno</li>
+            </ul>
+            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Gold%20%E2%9C%A8" target="_blank" rel="noopener" class="svc-pkg-cta svc-pkg-cta-gold">Reservar Gold</a>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /panel-cabina -->
+
+    <!-- Panel Aerografía -->
+    <div class="svc-panel" id="panel-aerografia" data-panel="aerografia">
+      <div class="svc-panel-inner">
+        <div class="svc-panel-head">
+          <div class="svc-panel-label">
+            <span class="svc-panel-eyebrow">Aerografía Corporal</span>
+            <span class="svc-panel-title">Bronceado instantáneo</span>
+          </div>
+          <button class="svc-close" data-close="aerografia" aria-label="Cerrar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="svc-pkgs svc-pkgs-center">
+
+          <div class="svc-pkg svc-pkg-aero">
+            <div class="svc-pkg-tier-row">
+              <span class="svc-pkg-tier">Aerografía</span>
+              <span class="svc-pkg-dur">45–60 min</span>
+            </div>
+            <div class="svc-pkg-name">Aerografía Corporal</div>
+            <div class="svc-pkg-dual-price">
+              <div class="svc-pkg-price-block">
+                <span class="svc-pkg-num">$995</span>
+                <span class="svc-pkg-sublabel">Aerografía</span>
+              </div>
+              <div class="svc-pkg-price-sep"></div>
+              <div class="svc-pkg-price-block">
+                <span class="svc-pkg-num">$200</span>
+                <span class="svc-pkg-sublabel">+ Bikini tape</span>
+              </div>
+            </div>
+            <ul class="svc-pkg-list">
+              <li>Bronceado instantáneo con aerógrafo profesional</li>
+              <li>Diseño de Bikini personalizado</li>
+              <li>Cobertura total, sin manchas, sin UV</li>
+              <li>Secado rápido</li>
+              <li>Permanece 8–10 días</li>
+              <li>Ideal para bodas, sesiones de fotos y eventos</li>
+            </ul>
+            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20Aerograf%C3%ADa%20%F0%9F%8E%A8" target="_blank" rel="noopener" class="svc-pkg-cta">Reservar Aerografía</a>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /panel-aerografia -->
+
+  </div><!-- /svc-panels-wrap -->
 
 </section>
 
@@ -3468,6 +4261,84 @@ footer {
       heroVideo.querySelectorAll('source').forEach(s => s.remove());
     }
   }
+
+  // ── Technique cards: progressive disclosure ───────────────
+  (function() {
+    var cards = document.querySelectorAll('.svc-card');
+    var panels = document.querySelectorAll('.svc-panel');
+
+    function closeAll() {
+      cards.forEach(function(c) {
+        c.classList.remove('active');
+        c.setAttribute('aria-expanded', 'false');
+      });
+      panels.forEach(function(p) { p.classList.remove('open'); });
+    }
+
+    function openPanel(target) {
+      var panel = document.getElementById('panel-' + target);
+      if (!panel) return;
+      panel.classList.add('open');
+      // Scroll panel into view smoothly
+      setTimeout(function() {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+
+    cards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        var target = card.dataset.target;
+        var isOpen = card.classList.contains('active');
+        closeAll();
+        if (!isOpen) {
+          card.classList.add('active');
+          card.setAttribute('aria-expanded', 'true');
+          openPanel(target);
+        }
+      });
+    });
+
+    // Close buttons
+    document.querySelectorAll('.svc-close').forEach(function(btn) {
+      btn.addEventListener('click', function() { closeAll(); });
+    });
+
+    // Package price toggles (segmented controls)
+    document.querySelectorAll('.svc-seg-ctrl').forEach(function(ctrl) {
+      var segs = ctrl.querySelectorAll('.svc-seg');
+      var pkg = ctrl.closest('.svc-pkg');
+      var priceNum = pkg ? pkg.querySelector('.svc-pkg-num') : null;
+      var sublabel = pkg ? pkg.querySelector('.svc-pkg-sublabel') : null;
+
+      segs.forEach(function(seg) {
+        seg.addEventListener('click', function() {
+          segs.forEach(function(s) { s.classList.remove('active'); });
+          seg.classList.add('active');
+          if (priceNum && seg.dataset.price) {
+            priceNum.style.opacity = '0';
+            priceNum.style.transform = 'translateY(8px)';
+            setTimeout(function() {
+              priceNum.textContent = seg.dataset.price;
+              if (sublabel && seg.dataset.sublabel) sublabel.textContent = seg.dataset.sublabel;
+              priceNum.style.opacity = '1';
+              priceNum.style.transform = 'translateY(0)';
+            }, 200);
+          }
+        });
+      });
+    });
+  })();
+
+  // ── Ambient video: disable on mobile/touch to save bandwidth ──
+  (function() {
+    if (window.matchMedia('(max-width: 768px), (hover: none)').matches) {
+      document.querySelectorAll('.pkg-video-bg video').forEach(function(v) {
+        v.removeAttribute('autoplay');
+        v.pause();
+        v.querySelectorAll('source').forEach(function(s) { s.remove(); });
+      });
+    }
+  })();
 
   // ── Package cards: price toggle ──────────────────────────
   document.querySelectorAll('.pkg-toggle').forEach(function(toggle) {
