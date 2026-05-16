@@ -1918,15 +1918,13 @@ footer {
   .nav-logo img { height: 60px; }
   .nav.scrolled .nav-logo img { height: 50px; }
 
-  /* Hero mobile — no video, animated image */
+  /* Hero mobile — video activo en móvil */
   .hero {
     padding: 130px 20px 90px;
     min-height: 92vh;
     min-height: 92dvh;
   }
-  .hero-bg video { display: none; }
-  .hero-bg img.mobile { display: block !important; }
-  .hero-bg img.desktop { display: none; }
+  .hero-bg video { display: block; }
   .hero h1 { font-size: clamp(44px, 14vw, 72px); }
   .hero-sub { font-size: 16px; margin-top: 24px; }
   .hero-sub-2 { font-size: 15px; margin-top: 12px; }
@@ -2000,10 +1998,6 @@ footer {
   .hero-actions { flex-direction: column; }
 }
 
-/* Desktop only — hide mobile image */
-@media (min-width: 769px) {
-  .hero-bg img.mobile { display: none; }
-}
 </style>
 </head>
 <body>
