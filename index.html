@@ -1994,7 +1994,11 @@ footer {
 @media (max-width: 420px) {
   .hero h1 { font-size: 44px; }
   .section-title { font-size: 34px; }
-  .hero-meta { flex-direction: column; gap: 16px; }
+  .hero-meta { flex-direction: row; gap: 0; justify-content: space-between; }
+  .hero-meta-item { flex: 1; align-items: center; text-align: center; padding: 0 6px; border-right: 1px solid var(--border-soft); }
+  .hero-meta-item:last-child { border-right: none; }
+  .hero-meta-num { font-size: 22px; }
+  .hero-meta-label { font-size: 9.5px; }
   .hero-actions { flex-direction: column; }
 }
 
