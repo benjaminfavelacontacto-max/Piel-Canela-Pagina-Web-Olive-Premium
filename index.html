@@ -3321,7 +3321,7 @@ footer {
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#sobre">Nosotros</a></li>
-    <li><a href="#cursos">Cursos</a></li>
+    <li><a href="cursos.html">Cursos</a></li>
     <li><a href="#galeria">Galería</a></li>
     <li><a href="#testimonios">Reseñas</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -3335,6 +3335,7 @@ footer {
 <div class="mobile-menu" id="mobileMenu">
   <a href="#servicios">Servicios</a>
   <a href="#sobre">Nosotros</a>
+  <a href="cursos.html">Cursos</a>
   <a href="#galeria">Galería</a>
   <a href="#testimonios">Reseñas</a>
   <a href="#faq">FAQ</a>
@@ -3604,42 +3605,70 @@ footer {
         <div class="svc-panel-head">
           <div class="svc-panel-label">
             <span class="svc-panel-eyebrow">Cabina Vertical UV</span>
-            <span class="svc-panel-title">Experiencia Signature</span>
+            <span class="svc-panel-title">Elige tu paquete</span>
           </div>
           <button class="svc-close" data-close="cabina" aria-label="Cerrar">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
-        <div class="svc-pkgs svc-pkgs-center">
+        <div class="svc-pkgs">
+
+          <!-- Básico -->
+          <div class="svc-pkg svc-pkg-silver">
+            <div class="svc-pkg-tier-row">
+              <span class="svc-pkg-tier" style="border-color:rgba(160,184,200,0.35);color:#a0b8c8;background:rgba(160,184,200,0.07);">Básico</span>
+              <span class="svc-pkg-dur">Tiempo según tu fototipo</span>
+            </div>
+            <div class="svc-pkg-name">Cabina Básico</div>
+            <div class="svc-seg-ctrl" data-pkg-id="basico-cabina">
+              <button class="svc-seg active" data-price="$780" data-sublabel="por sesión">1 sesión</button>
+              <button class="svc-seg" data-price="$2,180" data-sublabel="paquete × 3">3 sesiones</button>
+            </div>
+            <div class="svc-pkg-price-block">
+              <span class="svc-pkg-num">$780</span>
+              <span class="svc-pkg-sublabel">por sesión</span>
+            </div>
+            <ul class="svc-pkg-list">
+              <li>Jugo Activador de Melanina</li>
+              <li>Aplicación de activador y potencializador</li>
+              <li>Sesión de cabina adaptada a tu fototipo de piel</li>
+              <li>Protección ocular y facial</li>
+              <li>Tiempo Asistido</li>
+              <li>Ducha con vitamina E y C</li>
+              <li>Diseño de Bikini personalizado</li>
+              <li>Coctel de fruta o Paleta helada</li>
+            </ul>
+            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Cabina%20B%C3%A1sico%20%F0%9F%8C%BF" target="_blank" rel="noopener" class="svc-pkg-cta">Reservar Básico</a>
+          </div>
 
           <!-- Gold -->
           <div class="svc-pkg svc-pkg-gold">
             <div class="svc-pkg-tier-row">
               <span class="svc-pkg-tier">Gold</span>
-              <span class="svc-pkg-dur">2:00 hrs</span>
-              <span class="svc-pkg-badge">Signature</span>
+              <span class="svc-pkg-dur">Tiempo según tu fototipo</span>
             </div>
-            <div class="svc-pkg-name">Sol + Cabina</div>
+            <div class="svc-pkg-name">Cabina Gold</div>
+            <div class="svc-seg-ctrl" data-pkg-id="gold-cabina">
+              <button class="svc-seg active" data-price="$1,280" data-sublabel="por sesión">1 sesión</button>
+              <button class="svc-seg" data-price="$2,645" data-sublabel="paquete × 3">3 sesiones</button>
+            </div>
             <div class="svc-pkg-price-block">
-              <span class="svc-pkg-num">$1,698</span>
+              <span class="svc-pkg-num">$1,280</span>
               <span class="svc-pkg-sublabel">por sesión</span>
             </div>
             <ul class="svc-pkg-list">
-              <li>Bronceado Brasileño con sol</li>
-              <li>Diseño de Bikini personalizado</li>
               <li>Jugo Activador de Melanina</li>
-              <li>Coctel de frutas o paleta</li>
-              <li>Masaje de exfoliación podal</li>
-              <li>Aplicación de activador de bronceo</li>
-              <li>Mascarilla crioterapia de gel frío</li>
+              <li>Aplicación de activador y potencializador</li>
+              <li>Sesión de cabina adaptada a tu fototipo de piel</li>
+              <li>Protección ocular y facial</li>
+              <li>Tiempo Asistido</li>
               <li>Ducha con vitamina E y C</li>
-              <li>Exfoliación corporal</li>
-              <li>Baño de luna</li>
-              <li>Sesión de cabina de bronceado</li>
-              <li>Mascarilla de colágeno</li>
-              <li>Hidratación profunda pantenol y colágeno</li>
+              <li>Exfoliación Corporal</li>
+              <li>Baño de luna <span style="color:var(--ink-mute);font-size:11px;">(emparejamos tu tono de piel y aclaramiento de vellos)</span></li>
+              <li>Diseño de Bikini personalizado</li>
+              <li>Coctel de fruta o Paleta helada</li>
             </ul>
-            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Gold%20%E2%9C%A8" target="_blank" rel="noopener" class="svc-pkg-cta svc-pkg-cta-gold">Reservar Gold</a>
+            <a href="https://wa.me/523332508073?text=Hola%2C%20quiero%20reservar%20el%20paquete%20Cabina%20Gold%20%E2%9C%A8" target="_blank" rel="noopener" class="svc-pkg-cta svc-pkg-cta-gold">Reservar Gold</a>
           </div>
 
         </div>
@@ -3788,24 +3817,6 @@ footer {
         <div class="reel-lbl">Sesión Inolvidable</div>
         <div class="reel-title">3 técnicas, una sola sesión.<br>Aerografía · Sol · Cabina.</div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───── CURSOS ───── -->
-<section class="section-pad" id="cursos" style="background: var(--bg-1);">
-  <div style="max-width: var(--maxw); margin: 0 auto;">
-    <div class="reveal"><span class="eyebrow">Cursos</span></div>
-    <h2 class="section-title reveal" data-delay="1">Aprende la técnica del<br><em>bronceado brasileño</em>.</h2>
-    <p class="section-desc reveal" data-delay="2">¿Tienes spa, salón de belleza o sueñas con emprender? Te enseñamos paso a paso la técnica profesional del bronceado brasileño en cursos presenciales en Guadalajara. Aprendes con modelos reales, te llevas el conocimiento y los productos para arrancar tu propio negocio.</p>
-    <ul class="section-desc reveal" data-delay="3" style="margin-top: 24px; padding-left: 1.4em; display: flex; flex-direction: column; gap: 8px;">
-      <li>Capacitación práctica con instructoras certificadas</li>
-      <li>Productos premium incluidos</li>
-      <li>Para emprendedoras y profesionales de la belleza</li>
-      <li>Cupo limitado por grupo (atención personalizada)</li>
-    </ul>
-    <div class="reveal" data-delay="4" style="margin-top: 40px;">
-      <a href="https://wa.me/523332508073" target="_blank" rel="noopener" class="btn btn-primary">Quiero información del próximo curso</a>
     </div>
   </div>
 </section>
