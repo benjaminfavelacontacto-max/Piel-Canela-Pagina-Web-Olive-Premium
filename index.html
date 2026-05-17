@@ -4235,6 +4235,7 @@ footer {
     let isDragging   = false;
     let startX       = 0;
     let lastX        = 0;
+    let dragSign     = 1;   // +1 si arrastra en row1, -1 si arrastra en row2
     let rafId        = null;
 
     function getScrollDelta() {
@@ -4262,11 +4263,17 @@ footer {
       requestAnimationFrame(momentumLoop);
     }
 
+    // Detecta si el gesto empieza en row2 para invertir dirección
+    function getSign(target) {
+      return row2.contains(target) ? -1 : 1;
+    }
+
     // ── Mouse drag ──
     marquee.addEventListener('mousedown', (e) => {
       isDragging   = true;
       startX       = e.clientX;
       lastX        = e.clientX;
+      dragSign     = getSign(e.target);
       dragVelocity = 0;
       marquee.style.cursor = 'grabbing';
       marquee.style.userSelect = 'none';
@@ -4274,7 +4281,7 @@ footer {
 
     window.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
-      const dx     = e.clientX - lastX;
+      const dx     = (e.clientX - lastX) * dragSign;
       dragOffset  += dx;
       dragVelocity = dx;
       lastX        = e.clientX;
@@ -4293,11 +4300,12 @@ footer {
     marquee.addEventListener('touchstart', (e) => {
       startX       = e.touches[0].clientX;
       lastX        = startX;
+      dragSign     = getSign(e.target);
       dragVelocity = 0;
     }, { passive: true });
 
     marquee.addEventListener('touchmove', (e) => {
-      const dx     = e.touches[0].clientX - lastX;
+      const dx     = (e.touches[0].clientX - lastX) * dragSign;
       dragOffset  += dx;
       dragVelocity = dx;
       lastX        = e.touches[0].clientX;
