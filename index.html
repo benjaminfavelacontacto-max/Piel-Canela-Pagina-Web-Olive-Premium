@@ -4333,8 +4333,8 @@ footer {
       if (isHorizontalSwipe) momentumLoop();
     }, { passive: true });
 
-    // ── Scroll driver ──
-    window.addEventListener('scroll', scheduleRender, { passive: true });
+    // ── Scroll driver — render directo, sin RAF, para evitar lag de 1 frame ──
+    window.addEventListener('scroll', render, { passive: true });
 
     // Initial render
     render();
