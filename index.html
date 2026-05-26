@@ -2064,27 +2064,6 @@ footer {
   pointer-events: none;
   display: block;
 }
-/* StringTune-style reveal on scroll */
-.gallery-tile img,
-.gallery-tile video {
-  scale: 2;
-  opacity: 0;
-  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
-}
-.gallery-tile.revealed img,
-.gallery-tile.revealed video {
-  scale: 1;
-  opacity: 1;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  transition:
-    scale 1.5s cubic-bezier(0.86, 0, 0.31, 1),
-    opacity 1.5s cubic-bezier(0.86, 0, 0.31, 1),
-    clip-path 1.5s cubic-bezier(0.86, 0, 0.31, 1);
-}
-@media (prefers-reduced-motion: reduce) {
-  .gallery-tile img,
-  .gallery-tile video { scale: 1; opacity: 1; clip-path: none; }
-}
 .gallery-tile:hover img,
 .gallery-tile:hover video { transform: scale(1.07); filter: brightness(1.05); }
 .gallery-tile-overlay {
@@ -4413,19 +4392,11 @@ src="https://www.facebook.com/tr?id=2292027218248451&ev=PageView&noscript=1"
 
     // Observa visibilidad: pausa videos + detiene render cuando no se ve
     const galleryVideos = section.querySelectorAll('video');
-    const galleryTiles  = section.querySelectorAll('.gallery-tile');
-    let revealed = false;
     const io = new IntersectionObserver((entries) => {
       inView = entries[0].isIntersecting;
       if (inView) {
         scheduleRender();
         galleryVideos.forEach(v => { v.play().catch(() => {}); });
-        if (!revealed) {
-          revealed = true;
-          galleryTiles.forEach((t, i) => {
-            setTimeout(() => t.classList.add('revealed'), i * 80);
-          });
-        }
       } else {
         galleryVideos.forEach(v => v.pause());
       }
