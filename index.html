@@ -4279,21 +4279,27 @@ src="https://www.facebook.com/tr?id=2292027218248451&ev=PageView&noscript=1"
     let lastX        = 0;
     let dragSign     = 1;   // +1 si arrastra en row1, -1 si arrastra en row2
     let rafId        = null;
+    let sectionTop   = 0;   // cached para evitar forced layout en scroll
+    let inView       = false;
+
+    function recalcSectionTop() {
+      sectionTop = section.getBoundingClientRect().top + window.scrollY;
+    }
 
     function getScrollDelta() {
-      const sectionY = section.getBoundingClientRect().top + window.scrollY;
-      return (window.scrollY - sectionY + window.innerHeight) * SPEED - OFFSET;
+      return (window.scrollY - sectionTop + window.innerHeight) * SPEED - OFFSET;
     }
 
     function render() {
-      const base = getScrollDelta();
-      row1.style.transform = `translate3d(${base + dragOffset}px, 0, 0)`;
-      row2.style.transform = `translate3d(${-(base + dragOffset)}px, 0, 0)`;
       rafId = null;
+      const base = getScrollDelta();
+      const t = base + dragOffset;
+      row1.style.transform = `translate3d(${t}px, 0, 0)`;
+      row2.style.transform = `translate3d(${-t}px, 0, 0)`;
     }
 
     function scheduleRender() {
-      if (!rafId) rafId = requestAnimationFrame(render);
+      if (rafId == null) rafId = requestAnimationFrame(render);
     }
 
     // Momentum loop
@@ -4375,10 +4381,20 @@ src="https://www.facebook.com/tr?id=2292027218248451&ev=PageView&noscript=1"
       if (isHorizontalSwipe) momentumLoop();
     }, { passive: true });
 
-    // ── Scroll driver — render directo, sin RAF, para evitar lag de 1 frame ──
-    window.addEventListener('scroll', render, { passive: true });
+    // ── Scroll driver — rAF-throttled + solo cuando la sección está en viewport ──
+    const onScroll = () => { if (inView) scheduleRender(); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => { recalcSectionTop(); scheduleRender(); }, { passive: true });
+
+    // Observa visibilidad para no animar fuera de pantalla
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      if (inView) scheduleRender();
+    }, { rootMargin: '200px 0px' });
+    io.observe(section);
 
     // Initial render
+    recalcSectionTop();
     render();
   })();
 
