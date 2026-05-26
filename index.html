@@ -2031,13 +2031,18 @@ footer {
   cursor: grab;
   padding-top: 4px;
   padding-bottom: 4px;
+  contain: layout paint;
 }
 .gallery-row {
   display: flex;
   gap: 14px;
   will-change: transform;
   padding-left: 14px;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: layout paint;
 }
+.gallery-tile { contain: layout paint; }
 .gallery-tile {
   flex-shrink: 0;
   width: clamp(240px, 25vw, 390px);
@@ -4385,10 +4390,16 @@ src="https://www.facebook.com/tr?id=2292027218248451&ev=PageView&noscript=1"
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', () => { recalcSectionTop(); scheduleRender(); }, { passive: true });
 
-    // Observa visibilidad para no animar fuera de pantalla
+    // Observa visibilidad: pausa videos + detiene render cuando no se ve
+    const galleryVideos = section.querySelectorAll('video');
     const io = new IntersectionObserver((entries) => {
       inView = entries[0].isIntersecting;
-      if (inView) scheduleRender();
+      if (inView) {
+        scheduleRender();
+        galleryVideos.forEach(v => { v.play().catch(() => {}); });
+      } else {
+        galleryVideos.forEach(v => v.pause());
+      }
     }, { rootMargin: '200px 0px' });
     io.observe(section);
 
